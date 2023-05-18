@@ -1,28 +1,48 @@
-@Library('jenkins-shared-library') _
 pipeline{
 
     agent any
 
     stages{
 
+
         stage('Git Checkout'){
 
             steps{
 
+                script{
 
-                    gitCheckout(
-                        branch: "main",
-                        url: "https://github.com/PraveenReddy-Lingala/JAVA_APPLICATION_Mr-Praveen.git"
+                    git branch: 'main', url: 'https://github.com/PraveenReddy-Lingala/JAVA_APPLICATION_Mr-Praveen.git'
 
-                    )
+                }
             }
         }
-        stage('Unit test mvn'){
-
+        stage('UNIT testing'){
+            
             steps{
+                
                 script{
                     
-                    mvnTest()
+                    sh 'mvn test'
+                }
+            }
+        }
+        stage('Integration testing'){
+            
+            steps{
+                
+                script{
+                    
+                    sh 'mvn verify -DskipUnitTests'
+                }
+            }
+        }
+        stage('Maven build'){
+            
+            steps{
+                
+                script{
+                    
+                    sh 'mvn clean install'
                 }
             }
         }
